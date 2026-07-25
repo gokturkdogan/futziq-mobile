@@ -15,14 +15,14 @@ class LanguageSwitcher extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 144,
-      height: 46,
+      width: 100,
+      height: 32,
       decoration: BoxDecoration(
         color: AppColors.langSwitchBackground,
         border: Border.all(color: AppColors.langSwitchBorder),
-        borderRadius: BorderRadius.circular(22),
+        borderRadius: BorderRadius.circular(16),
       ),
-      padding: const EdgeInsets.all(4),
+      padding: const EdgeInsets.all(3),
       child: Stack(
         children: [
           AnimatedAlign(
@@ -32,11 +32,11 @@ class LanguageSwitcher extends StatelessWidget {
                 ? Alignment.centerLeft
                 : Alignment.centerRight,
             child: Container(
-              width: 68,
-              height: 38,
+              width: 47,
+              height: 26,
               decoration: BoxDecoration(
                 color: AppColors.langSwitchSelected,
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(14),
               ),
             ),
           ),
@@ -55,7 +55,7 @@ class LanguageSwitcher extends StatelessWidget {
                             : AppColors.subtitle,
                         fontWeight:
                             selectedLanguage == 'TR' ? FontWeight.w700 : FontWeight.w600,
-                        fontSize: 14,
+                        fontSize: 11,
                       ),
                     ),
                   ),
@@ -74,7 +74,7 @@ class LanguageSwitcher extends StatelessWidget {
                             : AppColors.subtitle,
                         fontWeight:
                             selectedLanguage == 'EN' ? FontWeight.w700 : FontWeight.w600,
-                        fontSize: 14,
+                        fontSize: 11,
                       ),
                     ),
                   ),
