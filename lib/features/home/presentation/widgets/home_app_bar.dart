@@ -45,12 +45,12 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                 selectedLanguage: selectedLanguage,
                 onChanged: onLanguageChanged,
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: 8),
               IconButton(
                 onPressed: () {},
                 icon: const Icon(
                   Icons.menu,
-                  size: 30,
+                  size: 24,
                   color: AppColors.grey,
                 ),
                 splashRadius: 0.1,
