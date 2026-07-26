@@ -1,11 +1,14 @@
 ﻿import 'package:flutter_bloc/flutter_bloc.dart';
 import 'navigation_drawer_event.dart';
 import 'navigation_drawer_state.dart';
-import '../../domain/entities/menu_item_entity.dart';
+import '../../domain/usecases/get_menu_items.dart';
 
 class NavigationDrawerBloc
     extends Bloc<NavigationDrawerEvent, NavigationDrawerState> {
-  NavigationDrawerBloc() : super(const NavigationDrawerState()) {
+  final GetMenuItems getMenuItems;
+
+  NavigationDrawerBloc({required this.getMenuItems})
+      : super(const NavigationDrawerState()) {
     on<LoadNavigationDrawerData>(_onLoadData);
   }
 
@@ -15,11 +18,7 @@ class NavigationDrawerBloc
   ) async {
     emit(state.copyWith(status: NavigationDrawerStatus.loading));
     try {
-      // In a real app, you would fetch this from a repository
-      final menuItems = [
-        const MenuItemEntity(title: 'Hedef Avı', imageUrl: ''),
-        const MenuItemEntity(title: 'Kadro Kur', imageUrl: ''),
-      ];
+      final menuItems = await getMenuItems.call();
       emit(state.copyWith(
         status: NavigationDrawerStatus.success,
         menuItems: menuItems,

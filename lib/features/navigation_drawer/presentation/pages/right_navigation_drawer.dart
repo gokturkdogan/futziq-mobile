@@ -1,6 +1,9 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../data/datasources/navigation_drawer_remote_data_source.dart';
+import '../../data/repositories/navigation_drawer_repository_impl.dart';
+import '../../domain/usecases/get_menu_items.dart';
 import '../bloc/navigation_drawer_bloc.dart';
 import '../bloc/navigation_drawer_event.dart';
 import '../bloc/navigation_drawer_state.dart';
@@ -21,7 +24,12 @@ class RightNavigationDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => NavigationDrawerBloc()..add(const LoadNavigationDrawerData()),
+      create: (context) {
+        final remoteDataSource = NavigationDrawerRemoteDataSourceImpl();
+        final repository = NavigationDrawerRepositoryImpl(remoteDataSource: remoteDataSource);
+        final useCase = GetMenuItems(repository: repository);
+        return NavigationDrawerBloc(getMenuItems: useCase)..add(const LoadNavigationDrawerData());
+      },
       child: Drawer(
         width: MediaQuery.of(context).size.width * 0.72,
         backgroundColor: const Color(0xFF090909),
@@ -62,7 +70,7 @@ class RightNavigationDrawer extends StatelessWidget {
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: state.menuItems.length,
-                            separatorBuilder: (context, index) => const SizedBox(height: 16),
+                            separatorBuilder: (context, index) => const SizedBox(height: 8),
                             itemBuilder: (context, index) {
                               final menuItem = state.menuItems[index];
                               return DrawerMenuButton(
