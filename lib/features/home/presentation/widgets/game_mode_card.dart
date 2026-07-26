@@ -70,7 +70,6 @@ class _GameModeCardState extends State<GameModeCard>
           margin: const EdgeInsets.only(bottom: 20),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: AppColors.border.withOpacity(0.20)),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.12),
@@ -78,6 +77,10 @@ class _GameModeCardState extends State<GameModeCard>
                 offset: const Offset(0, 8),
               ),
             ],
+          ),
+          foregroundDecoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: AppColors.border.withOpacity(0.25)),
           ),
           clipBehavior: Clip.antiAlias,
           child: Stack(
