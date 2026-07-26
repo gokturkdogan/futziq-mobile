@@ -3,12 +3,14 @@
 class MenuItemEntity extends Equatable {
   final String title;
   final String imageUrl;
+  final String code;
 
   const MenuItemEntity({
-    required this.title,
-    required this.imageUrl,
+    this.title = '',
+    this.imageUrl = '',
+    this.code = '',
   });
 
   @override
-  List<Object?> get props => [title, imageUrl];
+  List<Object?> get props => [title, imageUrl, code];
 }
