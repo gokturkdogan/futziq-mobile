@@ -8,6 +8,7 @@ import '../../domain/usecases/get_menu_items.dart';
 import '../bloc/navigation_drawer_bloc.dart';
 import '../bloc/navigation_drawer_event.dart';
 import '../bloc/navigation_drawer_state.dart';
+import '../../../game_detail/presentation/pages/game_detail_page.dart';
 import '../widgets/drawer_footer.dart';
 import '../widgets/drawer_header.dart';
 import '../widgets/drawer_menu_button.dart';
@@ -106,7 +107,15 @@ class RightNavigationDrawer extends StatelessWidget {
                                   title: menuItem.title,
                                   imageUrl: menuItem.imageUrl,
                                   onTap: () {
-                                    // TODO Navigation
+                                    Navigator.pop(context); // Close drawer
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => GameDetailPage(
+                                          familyCode: menuItem.code,
+                                        ),
+                                      ),
+                                    );
                                   },
                                 );
                               },
