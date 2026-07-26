@@ -8,12 +8,14 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String selectedLanguage;
   final Function(String) onLanguageChanged;
   final VoidCallback onMenuPressed;
+  final bool showBackButton;
 
   const HomeAppBar({
     super.key,
     required this.selectedLanguage,
     required this.onLanguageChanged,
     required this.onMenuPressed,
+    this.showBackButton = false,
   });
 
   @override
@@ -34,10 +36,17 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
           height: 72,
           child: Row(
             children: [
+              if (showBackButton)
+                IconButton(
+                  icon: const Icon(Icons.arrow_back_ios, color: AppColors.grey),
+                  onPressed: () => Navigator.of(context).pop(),
+                  splashRadius: 10,
+                ),
+              // if (showBackButton) const SizedBox(width: 4),
               CachedNetworkImage(
                 imageUrl: AppConstants.cloudinaryLogo,
-                width: 160,
-                height: 40,
+                width: 125,
+                height: 32,
                 fit: BoxFit.contain,
                 placeholder: (context, url) => const SizedBox(height: 40, width: 160),
                 errorWidget: (context, url, error) => const Icon(Icons.sports_soccer, color: AppColors.gold, size: 40),
