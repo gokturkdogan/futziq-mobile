@@ -1,6 +1,8 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../../core/constants/app_constants.dart';
+import '../../../navigation_drawer/presentation/pages/right_navigation_drawer.dart';
 import '../bloc/home_bloc.dart';
 import '../bloc/home_event.dart';
 import '../bloc/home_state.dart';
@@ -27,7 +29,9 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
+      key: scaffoldKey,
       backgroundColor: AppColors.background,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(72),
@@ -40,9 +44,16 @@ class HomeView extends StatelessWidget {
               onLanguageChanged: (lang) {
                 context.read<HomeBloc>().add(HomeLanguageChanged(lang));
               },
+              onMenuPressed: () {
+                scaffoldKey.currentState?.openEndDrawer();
+              },
             );
           },
         ),
+      ),
+      endDrawer: const RightNavigationDrawer(
+        logoUrl: AppConstants.cloudinaryLogo,
+        footerLogoUrl: AppConstants.cloudinaryLogo,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
