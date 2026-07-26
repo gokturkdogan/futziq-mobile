@@ -7,11 +7,13 @@ import 'language_switcher.dart';
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String selectedLanguage;
   final Function(String) onLanguageChanged;
+  final VoidCallback onMenuPressed;
 
   const HomeAppBar({
     super.key,
     required this.selectedLanguage,
     required this.onLanguageChanged,
+    required this.onMenuPressed,
   });
 
   @override
@@ -47,7 +49,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
               const SizedBox(width: 8),
               IconButton(
-                onPressed: () {},
+                onPressed: onMenuPressed,
                 icon: const Icon(
                   Icons.menu,
                   size: 24,
