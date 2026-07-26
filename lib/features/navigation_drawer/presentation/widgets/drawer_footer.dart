@@ -12,7 +12,8 @@ class DrawerFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 10),
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
       decoration: const BoxDecoration(
         border: Border(
           top: BorderSide(
@@ -24,8 +25,7 @@ class DrawerFooter extends StatelessWidget {
       child: Center(
         child: CachedNetworkImage(
           imageUrl: footerLogoUrl,
-          width: 125,
-          height: 32,
+          width: 130,
           fit: BoxFit.contain,
         ),
       ),
