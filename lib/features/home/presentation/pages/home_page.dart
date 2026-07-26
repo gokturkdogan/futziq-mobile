@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../navigation_drawer/presentation/pages/right_navigation_drawer.dart';
+import '../../data/datasources/home_remote_data_source.dart';
+import '../../data/repositories/home_repository_impl.dart';
+import '../../domain/usecases/get_game_families.dart';
 import '../bloc/home_bloc.dart';
 import '../bloc/home_event.dart';
 import '../bloc/home_state.dart';
@@ -18,7 +21,12 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeBloc()..add(const HomeLoadData()),
+      create: (context) {
+        final remoteDataSource = HomeRemoteDataSourceImpl();
+        final repository = HomeRepositoryImpl(remoteDataSource: remoteDataSource);
+        final useCase = GetGameFamilies(repository: repository);
+        return HomeBloc(getGameFamilies: useCase)..add(const HomeLoadData());
+      },
       child: const HomeView(),
     );
   }
@@ -81,9 +89,31 @@ class HomeView extends StatelessWidget {
 
                   if (state.status == HomeStatus.failure) {
                     return Center(
-                      child: Text(
-                        state.errorMessage ?? 'Bir hata oluştu',
-                        style: GoogleFonts.manrope(color: Colors.red),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 40),
+                        child: Column(
+                          children: [
+                            Text(
+                              state.errorMessage ?? 'Bir hata oluştu',
+                              style: GoogleFonts.manrope(color: Colors.red),
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(height: 16),
+                            ElevatedButton(
+                              onPressed: () {
+                                context.read<HomeBloc>().add(const HomeLoadData());
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.gold,
+                                foregroundColor: AppColors.background,
+                              ),
+                              child: Text(
+                                'Tekrar Dene',
+                                style: GoogleFonts.manrope(fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   }
@@ -91,13 +121,13 @@ class HomeView extends StatelessWidget {
                   return ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: state.gameModes.length,
+                    itemCount: state.gameFamilies.length,
                     itemBuilder: (context, index) {
-                      final mode = state.gameModes[index];
+                      final family = state.gameFamilies[index];
                       return GameModeCard(
-                        title: mode.title,
-                        description: mode.description,
-                        imageUrl: mode.imageUrl,
+                        title: family.title,
+                        description: family.description,
+                        imageUrl: family.imageUrl,
                         onTap: () {
                           // Handle navigation or action
                         },

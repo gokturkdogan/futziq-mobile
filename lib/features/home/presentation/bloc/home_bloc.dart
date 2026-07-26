@@ -1,34 +1,35 @@
 ﻿import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../domain/usecases/get_game_families.dart';
 import 'home_event.dart';
 import 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  HomeBloc() : super(const HomeState()) {
+  final GetGameFamilies getGameFamilies;
+
+  HomeBloc({required this.getGameFamilies}) : super(const HomeState()) {
     on<HomeLoadData>(_onLoadData);
     on<HomeLanguageChanged>(_onLanguageChanged);
   }
 
-  void _onLoadData(HomeLoadData event, Emitter<HomeState> emit) {
+  Future<void> _onLoadData(HomeLoadData event, Emitter<HomeState> emit) async {
     emit(state.copyWith(status: HomeStatus.loading));
-    
-    // Simulating data load
-    final gameModes = [
-      const GameModeModel(
-        title: 'HEDEF AVI',
-        description: 'Hedef değere en yakın toplamı oluşturmak için oyuncu seç.',
-        imageUrl: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=800&auto=format&fit=crop',
-      ),
-      const GameModeModel(
-        title: 'KADRO KUR',
-        description: 'Formasyona uygun slotlara oyuncu yerleştirerek kadronu oluştur.',
-        imageUrl: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=800&auto=format&fit=crop',
-      ),
-    ];
 
-    emit(state.copyWith(
-      status: HomeStatus.success,
-      gameModes: gameModes,
-    ));
+    try {
+      final gameFamilies = await getGameFamilies();
+
+      // Sort by sortOrder ascending
+      gameFamilies.sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
+
+      emit(state.copyWith(
+        status: HomeStatus.success,
+        gameFamilies: gameFamilies,
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        status: HomeStatus.failure,
+        errorMessage: 'Oyun modları yüklenemedi. Lütfen tekrar deneyin.',
+      ));
+    }
   }
 
   void _onLanguageChanged(HomeLanguageChanged event, Emitter<HomeState> emit) {
