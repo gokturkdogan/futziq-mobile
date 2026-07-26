@@ -14,6 +14,7 @@ import '../widgets/hero_banner.dart';
 import '../widgets/section_title.dart';
 import '../widgets/game_mode_card.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../game_detail/presentation/pages/game_detail_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -129,7 +130,14 @@ class HomeView extends StatelessWidget {
                         description: family.description,
                         imageUrl: family.imageUrl,
                         onTap: () {
-                          // Handle navigation or action
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => GameDetailPage(
+                                familyCode: family.code,
+                              ),
+                            ),
+                          );
                         },
                       );
                     },
