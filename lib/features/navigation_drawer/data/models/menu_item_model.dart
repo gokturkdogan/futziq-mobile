@@ -2,14 +2,20 @@
 
 class MenuItemModel extends MenuItemEntity {
   const MenuItemModel({
-    required String title,
-    required String imageUrl,
-  }) : super(title: title, imageUrl: imageUrl);
+    String title = '',
+    String imageUrl = '',
+    String code = '',
+  }) : super(
+          title: title,
+          imageUrl: imageUrl,
+          code: code,
+        );
 
   factory MenuItemModel.fromJson(Map<String, dynamic> json) {
     return MenuItemModel(
-      title: json['title'] as String,
-      imageUrl: json['imageUrl'] as String,
+      title: json['title'] as String? ?? '',
+      imageUrl: json['imageUrl'] as String? ?? '',
+      code: json['code'] as String? ?? '',
     );
   }
 }
