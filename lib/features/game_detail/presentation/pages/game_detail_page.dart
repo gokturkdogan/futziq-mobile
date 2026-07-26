@@ -135,6 +135,15 @@ class _GameDetailViewState extends State<GameDetailView>
                       title: gameDetail.title,
                       description: gameDetail.description,
                     ),
+                    const SizedBox(height: 12),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Divider(
+                        color: AppColors.divider.withOpacity(0.5),
+                        thickness: 1,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
                     GameGrid(games: gameDetail.games),
                     const SizedBox(height: 40),
                   ],

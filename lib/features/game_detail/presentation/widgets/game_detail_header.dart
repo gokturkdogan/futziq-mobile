@@ -50,7 +50,7 @@ class GameDetailHeader extends StatelessWidget {
             ),
           ),
           Positioned(
-            bottom: 20,
+            bottom: 30,
             left: 20,
             right: 20,
             child: Column(
